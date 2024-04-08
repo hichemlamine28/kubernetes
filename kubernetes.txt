@@ -1,0 +1,47 @@
+Introduction
+
+
+
+Origin of Kubernetes
+
+
+
+What is Kubernetes
+
+
+
+Installation
+
+
+
+Kubernetes Terminologies and Architecture
+
+
+
+Uses Cases of Kubernetes
+
+
+
+ubernetes Demo
+
+
+
+
+A comparative Analysis of Kubernetes and Docker
+
+
+
+
+What are Orchestration Terminologies
+
+
+
+
+How to set up simple Kuebrenets Cluster using kops
+
+
+
+
+Interview Questions
+
+
