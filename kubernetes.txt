@@ -1,8 +1,15 @@
-Introduction
-
+In troduction
+    Un des plus puissants orchestrateurs de conteneurs (google)
+    Comment Deployer, Utilser et maintenir des applications Sur Kubernetes
+    Comment Faire le build des applications avec des conteneurs en utilisant Docker
+    Comment Deployer un Cluster Kubernetes.
 
 
 Origin of Kubernetes
+    pic01:Before KUbernetes
+    pic02:  Plusieurs applications ur meme serveur , Risk Potentiel,
+            Une application peut à un moment donné consommer toutes les ressources allouées
+
 
 
 
@@ -10,7 +17,10 @@ What is Kubernetes
 
 
 
-Installation
+
+
+Installation fo Kubernetes on Ubuntu
+
 
 
 
@@ -22,7 +32,7 @@ Uses Cases of Kubernetes
 
 
 
-ubernetes Demo
+Kubernetes Demo
 
 
 
@@ -32,12 +42,12 @@ A comparative Analysis of Kubernetes and Docker
 
 
 
-What are Orchestration Terminologies
+What are Orchestration Tools
 
 
 
 
-How to set up simple Kuebrenets Cluster using kops
+How to set up simple Kubernetes Cluster using kops
 
 
 
