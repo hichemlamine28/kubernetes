@@ -9,6 +9,11 @@ Origin of Kubernetes
     pic01:Before KUbernetes
     pic02:  Plusieurs applications ur meme serveur , Risk Potentiel,
             Une application peut à un moment donné consommer toutes les ressources allouées
+            si e serveur est down, toutes les applications sont ko
+            
+
+
+
 
 
 
