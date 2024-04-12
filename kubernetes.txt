@@ -19,7 +19,7 @@ Origin of Kubernetes
             indisponibilté: applications/assets indisponible la plupart du temps car les ressources sont utilsées par une autre application
             Limitations et restrictions: pas toute applications ou serveur capables de fonctionner sur des VMs, certains necessitent des machines hybrides
             Consommation du temps: un processus qui prend trop du temps, plusieurs étapes sont necessaires pour atteindre un resultat
-
+    pic04:
             What about Kubernetes ? il fonctionne en deploiement des conteneurs
             Oui, Kubernetes fonctionne tres bien et peut toujours etre  la bonne solution to eviter tout ce qu'on vient de mentionner.
 
