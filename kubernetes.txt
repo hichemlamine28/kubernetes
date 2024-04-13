@@ -25,16 +25,28 @@ Origin of Kubernetes
 
     pic05:  Commençons d'abord par la difference entre VM et kubernetes
 
-
-
-
-
-
-
-
-
-
 What is Kubernetes
+    Tout Simplement, plateforme open-source utilsée pour maintenir et deployer des conteneurs
+    Dans la pratique, kubernetes est generalement utilsé avec Docker pour une meilleure implementation et controle des applications conteneurisées
+    Application conteneurisée: builder une application avec tous ses fichiers, librariries, packages ... necessaires pour son bon fonctionnement sur differentes plateformes
+    Kubernetes a été introduit en tant que projet Google et c'est le successeur de gogle Borg
+    Démarré en 2014, son architecturele rend compatible pour les applications a runner sur cloud
+    Cloud Native Computing mantient maintenant Kubernetes
+
+    Portable et 100% open-source: Compatible avec plusieurs plateformes flexibilité
+    Workload scalability: Tres efficace, serveur ajouté et arreté facilement, changement automatique des contenrurs en execution et possible de faire scale manuel aussi
+    High Availability: Kubernetes offre la disponibilité des conteneurs et de l'infarastructure. Peut fonctionner sur n'importe quel environnement
+    Designed for deployment: Accelere les test, deploiement, la gestion,des phases, ideal pour deploiement
+    Service discovery and load balancing: permet d'exposer des coneytenurs utilisant des dns ou des ip, si le traffic est elevé il peut balancerr e distribuer le traffic pour que deploiement soit stable
+    Storage orchestration: montage auto comme les volumes loacux ou les cloud
+    Self healing: redemarrer les conteneur en echec, remplecer des conetenrurs, kill des conteneur qui ne repondent pas au check
+    Rollout/Rollback auto: Desired State peut etre decrit en utilsant kubernetes, etatt actuel d'un conteneur change pour etre desired state 
+    Automatic bin packing: kubernetes specifie les valeur ram cpu necessaire pour chaque conteneur,, une fois les ressources sont definies, la gestion devient plus facile et la price de decision plus simple
+    
+
+
+
+
 
 
 
