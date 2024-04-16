@@ -108,6 +108,7 @@ sudo apt-mark hold kubelet kubeadm kubectl
 sudo mkdir -p /opt/bin/
 sudo curl -fsSLo /opt/bin/flanneld https://github.com/flannel-io/flannel/releases/download/v0.19.0/flanneld-amd64
 sudo chmod +x /opt/bin/flanneld
+sudo ufw enable
 
 
 # On master
@@ -116,22 +117,40 @@ sudo ufw allow 2379:2380/tcp
 sudo ufw allow 10250/tcp
 sudo ufw allow 10259/tcp
 sudo ufw allow 10257/tcp
+sudo ufw allow 9090/tcp
+sudo ufw allow 9100/tcp
 sudo ufw status
 
 
 # Pull images kubeapi server, kube controller manager, kube-schedular, etcd, kube-proxy, coredns ...
 sudo kubeadm config images pull
-
-sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=192.168.1.21 --cri-socket=unix:///run/containerd/containerd.sock
-
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=192.168.1.138 --cri-socket=unix:///run/containerd/containerd.sock
+# sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=192.168.1.21 --cri-socket=unix:///run/containerd/containerd.sock
 
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
-
 kubectl cluster-info
 
+# Flannel
 kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+
+# Calico
+curl https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/canal.yaml -O
+kubectl apply -f canal.yaml
+
+#kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+kubectl apply -f  https://calico-v3-25.netlify.app/archive/v3.25/manifests/calico.yaml
+
+
+# OR
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.4/manifests/tigera-operator.yaml
+curl https://raw.githubusercontent.com/projectcalico/calico/v3.26.4/manifests/custom-resources.yaml -O
+sed -i 's/cidr: 192\.168\.0\.0\/16/cidr: 10.244.0.0\/16/g' custom-resources.yaml
+kubectl create -f custom-resources.yaml
+
+
+
 
 kubectl get pods --all-namespaces
 
@@ -144,6 +163,8 @@ sudo kubeadm token create --print-join-command
 # On Worker node
 sudo ufw allow 10250/tcp
 sudo ufw allow 30000:32767/tcp
+sudo ufw allow 9090/tcp
+sudo ufw allow 9100/tcp
 sudo ufw status
 
 
@@ -161,7 +182,7 @@ sudo kubeadm join 192.168.1.21:6443 --token <token> --discovery-token-ca-cert-ha
 
 
 
-# # # # Install Calico Network 
+# # # # Install Calico Network if needed
 # # # kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.4/manifests/calico.yaml
 
 
@@ -187,3 +208,17 @@ sudo kubeadm join 192.168.1.21:6443 --token <token> --discovery-token-ca-cert-ha
 # # # # Use following curl command to access nginx based application, (see previous command to get port)
 # # # curl http://<woker-node-ip-addres>:31246
 
+
+
+
+# TIP
+# If the joining code is lost, it can retrieve using below command
+
+kubeadm token create --print-join-command
+
+#To install metrics server
+git clone https://github.com/mialeevs/kubernetes_installation_docker.git
+cd kubernetes_installation_docker/
+kubectl apply -f metrics-server.yaml
+cd
+rm -rf kubernetes_installation_docker/
