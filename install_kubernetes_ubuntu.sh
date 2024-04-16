@@ -22,12 +22,12 @@ sudo apt install curl -y
 sudo swapoff -a
 sudo sed -i '/ swap / s/^/#/' /etc/fstab
 sudo hostnamectl set-hostname "master-node" 
-
 exec bash
 
 new_entries="
-192.168.1.138 master-node
-192.168.1.72 worker-node1
+192.168.1.21 master-node
+192.168.1.83 worker1
+192.168.1.72 worker2
 "
 
 # Vérifie si les nouvelles entrées existent dans /etc/hosts
@@ -85,12 +85,15 @@ sudo systemctl restart containerd
 sudo systemctl enable containerd
 
 
+# sudo curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
 
 # Download public signing key
 curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 
+
 # Add kubernetes apt repository
 echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
 
 # Install kubeadm, Kubectl, Kubelet
 sudo apt update
@@ -98,33 +101,72 @@ sudo apt install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
 
 
-# # # # Install Kubernetes Cluster
-# # # sudo kubeadm init --control-plane-endpoint=k8smaster.example.net
 
-# # # mkdir -p $HOME/.kube
-# # # sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-# # # sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+
+# On all nodes
+sudo mkdir -p /opt/bin/
+sudo curl -fsSLo /opt/bin/flanneld https://github.com/flannel-io/flannel/releases/download/v0.19.0/flanneld-amd64
+sudo chmod +x /opt/bin/flanneld
+
+
+# On master
+sudo ufw allow 6443/tcp
+sudo ufw allow 2379:2380/tcp
+sudo ufw allow 10250/tcp
+sudo ufw allow 10259/tcp
+sudo ufw allow 10257/tcp
+sudo ufw status
+
+
+# Pull images kubeapi server, kube controller manager, kube-schedular, etcd, kube-proxy, coredns ...
+sudo kubeadm config images pull
+
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=192.168.1.21 --cri-socket=unix:///run/containerd/containerd.sock
+
+
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+kubectl cluster-info
+
+kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+
+kubectl get pods --all-namespaces
+
+
+# Get the worker join command
+sudo kubeadm token create --print-join-command
+
+
+
+# On Worker node
+sudo ufw allow 10250/tcp
+sudo ufw allow 30000:32767/tcp
+sudo ufw status
+
+
+
+sudo kubeadm join 192.168.1.21:6443 --token <token> --discovery-token-ca-cert-hash <sha256:...........>
+# No need, just for test
+### sudo kubeadm init --config kubeadm-config.yml
+
+
+
 
 # # # # next, try to run following kubectl commands to view cluster and node status
 # # # kubectl cluster-info
 # # # kubectl get nodes
 
 
-# # # # Join Worker node  example
-# # # sudo kubeadm join k8smaster.example.net:6443 --token vt4ua6.wcma2y8pl4menxh2 \
-# # #    --discovery-token-ca-cert-hash sha256:0494aa7fc6ced8f8e7b20137ec0c5d2699dc5f8e616656932ff9173c94962a36
-
-
-# # # kubectl get nodes
-
 
 # # # # Install Calico Network 
-# # # kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.0/manifests/calico.yaml
+# # # kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.4/manifests/calico.yaml
 
 
 # # # # Verify the status of pods in kube-system namespace,
 # # # kubectl get pods -n kube-system
-
 # # # kubectl get nodes
 
 
@@ -132,7 +174,6 @@ sudo apt-mark hold kubelet kubeadm kubectl
 # # # kubectl create deployment nginx-app --image=nginx --replicas=2
 
 # # # kubectl get deployment nginx-app
-
 
 # # # # Expose the deployment as NodePort,
 # # # kubectl expose deployment nginx-app --type=NodePort --port=80
