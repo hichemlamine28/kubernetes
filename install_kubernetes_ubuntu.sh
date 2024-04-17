@@ -118,6 +118,7 @@ sudo ufw allow 10250/tcp
 sudo ufw allow 10259/tcp
 sudo ufw allow 10257/tcp
 sudo ufw allow 9090/tcp
+sudo ufw allow 9099/tcp
 sudo ufw allow 9100/tcp
 sudo ufw status
 
@@ -143,7 +144,7 @@ kubectl apply -f canal.yaml
 kubectl apply -f  https://calico-v3-25.netlify.app/archive/v3.25/manifests/calico.yaml
 
 
-# OR
+# OR only if problem with previous (eviction problems)
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.4/manifests/tigera-operator.yaml
 curl https://raw.githubusercontent.com/projectcalico/calico/v3.26.4/manifests/custom-resources.yaml -O
 sed -i 's/cidr: 192\.168\.0\.0\/16/cidr: 10.244.0.0\/16/g' custom-resources.yaml
@@ -164,6 +165,7 @@ sudo kubeadm token create --print-join-command
 sudo ufw allow 10250/tcp
 sudo ufw allow 30000:32767/tcp
 sudo ufw allow 9090/tcp
+sudo ufw allow 9099/tcp
 sudo ufw allow 9100/tcp
 sudo ufw status
 

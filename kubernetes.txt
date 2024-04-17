@@ -45,19 +45,89 @@ What is Kubernetes
     
 
 
-
-
-
-
-
-
-
 Installation fo Kubernetes on Ubuntu
-
-
+    install_kubernetes_ubuntu.sh
+    install_lens.sh
 
 
 Kubernetes Terminologies and Architecture
+    Cluster: En semble de machines (physiques ou Virtuelles) sur lesqulles sont exécutées et gérées les applications
+    Master: Collection de composant formant le control panel de K8S incluant le scheduling et les events du cluster$
+    Node: Les workers machines sur lesquelles tournent les cnteneurs et les autres workloads
+    Pod: ensembe de contenenur deployés nesemble sur le meme host
+    Replication Controller: Utilsé pour définir le cycle de vie du pod (lifecycle) au lieu de creer les pods directement à la main.
+    Selector: Correspond aux labels pour filtrer des ressources spécifiques
+    Labels: Pair Cle_Valeur (key-value) attachés aux objets telque pod, permettant de filtrer, organiser et appliquer des opérations sur les ressources
+    Replication Set: definint le nombre de replicats de chaque pod qui vont runner, gère et remplace les pods si mort (die)
+    Annotation: label avec une plus large capacité data. Utilsé uniquement pour sauvegarder la data qui n'est pas recherché mais necessaire pour la ressource.
+    Name: Definit le nom de la ressource
+    Volume: directory/ dossier data accessibel par le conteneur
+    Namespace: Fournit plus de qualification et de classification au nom de la ressource
+    Service: abstration au dessus des pods qui fournit un ip unique et un DNS avec lesquel le pod est accessible
+    Persistent Volumes: store data permanently (local or cloud drives can be attached), file system mounts to the cluster without being associated to any Node
+    Pods provide two different types of sharing: networking and storage
+    Deployment: indique combien de pods seront lancés en meme temps, gere aussi le cluster si un pod est en echec
+    ingress: permet d'acceder aux services kubernetes de l'exterieur du cluster (ingress controller ou load balancer)
+
+## master
+    1) ETCD (Cluster Store):    stores the configuration details and essential values
+                                communicates with all other components to receive commands and work to perform applications
+                                manages network rules and post forwarding activity
+
+    2) Controller Manager:      daemon (server) running in loop responsible for gathering information and sending it to API-server
+                                works to get shared set of clusters and change to the desired state of the server
+
+    3) Sceduler:                assign the taks to the slave nodes
+                                responsible for distributing the workload and stores resoirce usage information of every nodes
+                                it tracks how the working load is used on cluster and places the workload on the available ressources
+                                
+    4) Api-Server:              acts as an entry point for all REST commands used for controlling the clusters
+                                implements an interface which makes different tools and librairies to communicate effectively
+
+    
+## Worker/ Slave node: 
+    1) Pod:                     combination of containers logically running together on node
+    2) Docker:                  Helps in running applications in an isolated but lightweight operating environement, it runs the configured pods
+    3) Kubelet:                 Service responsible for conveying information to and from the control plane services
+                                gets the configuration for a pod from the api server and ensures that the containers are working efficently
+                                The ekubelet process is responsible for maintaining the work status and the node server
+    4) kubernetes-proxy:        acts as a load balancer and network proxy to perform service on a sigle worker node
+                                manages pods on nodes, volumes, secrets, creation of new containers, health check-up, ETCD
+                                proxy service that runs on every node and helps making services available to the exetrnal host
+
+
+
+
+
+
+
+
+
+    07-architecture1.png
+    07-architecture2.png
+
+    Les internautes n'acceptent plus du downtime !!!
+    Les dev/admin doivent trouver une solution pour maintenir et mettre à jour les serveurs sans interruption de Service
+    ====> container deployment :  les conteneurs tournent dans des environnements isolés, ce qui rend plus simple aux dev/admin l'edition et le deploiement 
+
+                        swarm                       VS          Kubernetes
+    scaling :           No auto scaling             |           Auto scaling
+    Load Balancing:     Auto Load Balancing         |           Manually Configures load balancing
+    
+    Installation:       Easy and fast               |           Long and Time Consuming
+    
+    Scalabilit:         Cluster strength is weak    |           Cluster strentgh is strong
+                        when comparing to k8s
+
+    Storage Volume      Shares storage volumes      |           Shares storage volumes between multiple containers inside same pod
+    sharing             with any other container
+
+    GUI                 Not Available               |           Available
+
+
+
+
+
 
 
 
