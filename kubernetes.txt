@@ -97,12 +97,6 @@ Kubernetes Terminologies and Architecture
 
 
 
-
-
-
-
-
-
     07-architecture1.png
     07-architecture2.png
 
@@ -126,13 +120,9 @@ Kubernetes Terminologies and Architecture
 
 
 
-
-
-
-
-
 Uses Cases of Kubernetes
-
+        
+            08-companies-using-k8s.png
 
 
 Kubernetes Demo
