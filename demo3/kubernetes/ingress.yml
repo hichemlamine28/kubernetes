@@ -2,15 +2,17 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: fast-api
+  annotations:
+    spec.ingressClassName: "nginx"
 spec:
   rules:
-    - host: k8s.fastapi.com
+    - host: localhost
       http:
         paths:
           - path: /
-            pathType: Exact
+            pathType: Prefix
             backend:
               service:
-                name:  fast-api
+                name: fast-api
                 port:
                   number: 80

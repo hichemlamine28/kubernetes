@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: fast-api
 spec:
+  type: LoadBalancer
   selector:
     app: fast-api
   ports:

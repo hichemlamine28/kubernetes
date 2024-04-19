@@ -58,3 +58,16 @@ kubectl port-forward <pod> 8080:80
 
 
 
+
+
+
+
+# Very Useful for Kubeadm
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.34.1/deploy/static/provider/baremetal/deploy.yaml
+
+
+sudo snap install helm
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm install ingress --namespace ingress --create-namespace --set rbac.create=true,controller.kind=DaemonSet,controller.service.type=ClusterIP,controller.hostNetwork=true ingress-nginx/ingress-nginx
+kubectl delete validatingwebhookconfiguration ingress-ingress-nginx-admission
