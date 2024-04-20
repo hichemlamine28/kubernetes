@@ -3,10 +3,11 @@ kind: Ingress
 metadata:
   name: fast-api
   annotations:
-    spec.ingressClassName: "nginx"
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+  ingressClassName: fast-api
   rules:
-    - host: localhost
+    - host: 192-168-1-138.nip.io
       http:
         paths:
           - path: /
