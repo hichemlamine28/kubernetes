@@ -127,10 +127,40 @@ Uses Cases of Kubernetes
 
 Kubernetes Demo
 
-
+        demo 1+2+3
 
 
 A comparative Analysis of Kubernetes and Docker
+
+        kubernetes: plateforme open source  pour le maintien et le deploiement des conteneurs
+        En praique  , kubernetes est plus utilsé par rapport a docker seul pour un mieux controle et implementation des applications conteneurisées
+        Kubernetes & Docker fonctionnent ensemble 
+
+        Docker est un outil utilisé pour automatiser le deploiement des applications dans des legers conteneurs de telle façon l'application tourne de façon efficace sur differents environnements
+        Plusieurs conteneurs tournent sur le meme materiel
+        Haute productivité
+        Maintenir des applications isolées
+        Configuration facile et rapide
+
+        Kubernetes: 
+                Les applications sont deployées en tant que combinaison de pods, deployments et services
+                autoscaling possible
+                Health check: liveness + readiness
+                Installation et Configuration complexe
+                High fault Tolerance (principe de google infrastructure)
+        Docker: 
+                Les applications sont deployées dna sun contexet services
+                autoscaling non offert sauf via autre solution (swarm)
+                Health check limité aux services
+                Installation et configuration facile
+                Low fault Tolerance
+
+
+
+
+
+
+
 
 
 
