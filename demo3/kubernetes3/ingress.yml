@@ -2,11 +2,9 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: hello-app-ingress
-  annotations:
-    kubernetes.io/ingress.class: "nginx"
 spec:
   rules:
-  - host: localhost
+  - host: hello-devops6080.com
     http:
       paths:
       - path: /

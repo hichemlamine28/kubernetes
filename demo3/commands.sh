@@ -10,6 +10,9 @@ touch _init_.py
 code main.py
 
 
+# To launch app
+uvicorn main:app --reload
+
 
 
 # To add item using str
