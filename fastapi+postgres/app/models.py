@@ -1,5 +1,11 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
-from database import Base
+import os
+
+if os.getenv("RUNNING_IN_DOCKER"):
+    from app.database import Base
+else:
+    from database import Base
+
 
 class Questions(Base):
     __tablename__ = 'questions'

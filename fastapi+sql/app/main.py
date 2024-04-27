@@ -4,6 +4,7 @@ from typing import Annotated
 import models
 from database import engine, SessionLocal
 from sqlalchemy.orm import Session
+import os
 
 
 app = FastAPI()
@@ -51,7 +52,7 @@ async def delete_post(post_id: int, db: db_dependency):
         raise HTTPException(status_code=404, detail='Post not found')
     db.delete(db_post)
     db.commit()
-    
+
 
 
 @app.post("/users/", status_code=status.HTTP_201_CREATED)

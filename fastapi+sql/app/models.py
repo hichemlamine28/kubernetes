@@ -14,3 +14,4 @@ class Post(Base):
     title = Column(String(50))
     content = Column(String(100))
     user_id = Column(Integer)
+    

@@ -1,14 +1,48 @@
 from fastapi import FastAPI, HTTPException, Depends
 from pydantic import BaseModel
 from typing import List, Annotated
-import models
-from database import engine, SessionLocal
+import os
+
+# import models
+
 from sqlalchemy.orm import Session
+from fastapi.responses import HTMLResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+
+
+if os.getenv("RUNNING_IN_DOCKER"):
+    from app import models
+    from app.database import engine, SessionLocal
+else:
+    import models
+    from database import engine, SessionLocal
+
+
+
 
 
 
 app = FastAPI()
 models.Base.metadata.create_all(bind=engine)
+
+
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
+
+@app.get('/favicon.ico')
+async def favicon():
+    file_name = "favicon.ico"
+    file_path = os.path.join(app.root_path, "static", file_name)
+    return FileResponse(path=file_path, headers={"Content-Disposition": "attachment; filename=" + file_name})
+
+
+
+@app.get("/")
+def read_root():
+    # return {"Welcome": "Hichem     " f"from: {os.environ.get('ENV', 'DEFAULT_ENV')}"}
+    return {"Welcome": "Hichem     " f"from: {os.environ.get('HOSTNAME', 'DEFAULT_ENV')}"}
 
 
 
@@ -32,6 +66,16 @@ def get_db():
 
 
 db_dependency = Annotated[Session, Depends(get_db)]
+
+
+
+@app.get("/questions")
+async def list_questions(db: db_dependency):
+    result = db.query(models.Questions).all()
+    if not result:
+        raise HTTPException(status_code=404, detail='No Questions found')
+    return result
+
 
 
 
