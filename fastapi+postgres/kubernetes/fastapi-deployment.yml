@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: fastapi-app
-        image: hichemlamine/fastapi-postgresql:v1
+        image: hichemlamine/fastapi:postgres
         imagePullPolicy: Always  # Définit la politique de tirage de l'image sur Always
         ports:
         - containerPort: 80
