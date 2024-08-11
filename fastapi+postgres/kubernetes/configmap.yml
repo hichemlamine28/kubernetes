@@ -25,4 +25,4 @@ data:
     # Allow ALL connections
     host    all             all             all                      md5
 
-  DATABASE_URL: "postgresql://postgres:devops6080@10.99.40.102:5432/quiz"
+  DATABASE_URL: "postgresql://postgres:devops6080@postgres-svc.default.svc.cluster.local:5432/quiz"

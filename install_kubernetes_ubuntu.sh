@@ -120,6 +120,8 @@ sudo ufw allow 10257/tcp
 sudo ufw allow 9090/tcp
 sudo ufw allow 9099/tcp
 sudo ufw allow 9100/tcp
+sudo ufw allow 5432/tcp
+sudo ufw allow 5433/tcp
 sudo ufw status
 
 
@@ -167,6 +169,8 @@ sudo ufw allow 30000:32767/tcp
 sudo ufw allow 9090/tcp
 sudo ufw allow 9099/tcp
 sudo ufw allow 9100/tcp
+sudo ufw allow 5432/tcp
+sudo ufw allow 5433/tcp
 sudo ufw status
 
 
