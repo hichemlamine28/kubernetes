@@ -50,3 +50,5 @@ Ce dépôt contient un ensemble de labs et démonstrations autour de Kubernetes,
 1. Clonez le dépôt  
    ```bash
    git clone https://github.com/hichemlamine28/kubernetes.git
+   cd kubernetes
+   ```
